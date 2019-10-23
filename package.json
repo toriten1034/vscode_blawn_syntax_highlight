@@ -1,0 +1,26 @@
+{
+    "name": "blawn-syntax-highlight",
+    "displayName": "Blawn Syntax Highlight",
+    "description": ".blawn",
+    "version": "0.0.1",
+    "publisher":"toriten", 
+    "engines": {
+        "vscode": "^1.39.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "blawn",
+            "aliases": ["Blwan", "blawn"],
+            "extensions": [".blawn"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "blawn",
+            "scopeName": "source.bwaln",
+            "path": "./syntaxes/blawn.tmLanguage.json"
+        }]
+    }
+}

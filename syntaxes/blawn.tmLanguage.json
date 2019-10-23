@@ -1,0 +1,74 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "Blwan",
+    "patterns": [
+            {"include": "#preprocessors"},
+	    {"include": "#keywords"},
+	    {"include": "#statement"},
+	    {"include": "#strings"},
+	    {"include": "#comments"}
+	],
+    "repository": {
+        	"preprocessors":{
+	            "patterns": [{
+			    "name": "meta.preprocessor",
+			    "match": "\\b(import)\\b"
+			}]
+	        },
+	
+		"keywords": {
+			"patterns": [{
+				"name": "keyword.control.blawn",
+				"match": "\\b(if|else|for|in|while)\\b"
+			}]
+		},
+        	"statement":{
+		    "patterns":[
+			{
+			    "include": "#statement-keyword"
+			}
+		    ],
+		    "repository":{
+			"statement-keyword":{
+			    "patterns":[
+				{
+				    "name": "storage.type.class.blawn",
+				    "match": "\\b(?<!\\.)(class)\\b"
+				}
+			    ]
+			}
+		    }
+		    
+		},
+	
+		"strings": {
+			"name": "string.quoted.double.blawn",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.blawn",
+					"match": "\\\\."
+				}
+			]
+		},
+	        "comments": {
+          	    "patterns":[
+				{
+			    "include": "#doubleslashcomment"
+				}
+			],
+			"repository":{
+               "patterns": [
+				{
+				    "match": "//.*$",
+				    "name": "comment.line.double-slash"
+				}
+				                            ]
+			}
+
+		}
+		
+	},
+	"scopeName": "source.bwaln"
+}
