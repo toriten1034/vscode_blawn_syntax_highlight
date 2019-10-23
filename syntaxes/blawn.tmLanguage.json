@@ -1,74 +1,187 @@
 {
-    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-    "name": "Blwan",
-    "patterns": [
-            {"include": "#preprocessors"},
-	    {"include": "#keywords"},
-	    {"include": "#statement"},
-	    {"include": "#strings"},
-	    {"include": "#comments"}
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Blwan",
+	"patterns": [
+		{
+			"include": "#preprocessors"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#statement"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#operator"
+		},
+		{
+			"include": "#parameters"
+		},
+		{
+			"include": "#orders"
+		},
+		{
+			"include": "#variable"
+		}
 	],
-    "repository": {
-        	"preprocessors":{
-	            "patterns": [{
-			    "name": "meta.preprocessor",
-			    "match": "\\b(import)\\b"
-			}]
-	        },
-	
-		"keywords": {
-			"patterns": [{
-				"name": "keyword.control.blawn",
-				"match": "\\b(if|else|for|in|while)\\b"
-			}]
-		},
-        	"statement":{
-		    "patterns":[
-			{
-			    "include": "#statement-keyword"
-			}
-		    ],
-		    "repository":{
-			"statement-keyword":{
-			    "patterns":[
-				{
-				    "name": "storage.type.class.blawn",
-				    "match": "\\b(?<!\\.)(class)\\b"
-				}
-			    ]
-			}
-		    }
-		    
-		},
-	
-		"strings": {
-			"name": "string.quoted.double.blawn",
-			"begin": "\"",
-			"end": "\"",
+	"repository": {
+		"preprocessors": {
 			"patterns": [
 				{
-					"name": "constant.character.escape.blawn",
-					"match": "\\\\."
+					"name": "meta.preprocessor",
+					"match": "\\b(import)\\b"
 				}
 			]
 		},
-	        "comments": {
-          	    "patterns":[
+		"keywords": {
+			"patterns": [
 				{
-			    "include": "#doubleslashcomment"
+					"name": "keyword.control.blawn",
+					"match": "\\s(if|else|for|in|while|return)\\s"
+				}
+			]
+		},
+		"statement": {
+			"patterns": [
+				{
+					"include": "#statement-keyword"
 				}
 			],
-			"repository":{
-               "patterns": [
-				{
-				    "match": "//.*$",
-				    "name": "comment.line.double-slash"
+			"repository": {
+				"statement-keyword": {
+					"patterns": [
+						{
+							"name": "storage.type.class.blawn",
+							"match": "\\b(?<!\\.)(class)(\\s+)\\b"
+						},
+						{
+							"name": "storage.type.function.blawn",
+							"match": "(?<!\\.)(\\@function|function)(\\s+)"
+						},
+						{
+							"comment": "blwanに詳しくないのでコレがオブジェクトなのかメンバなのか分からない",
+							"name": "storage.type.object.blawn",
+							"match": "(?<!\\.)(\\@)([a-zA-Z_][a-zA-Z0-9_]*)(\\s+)"
+						}
+					]
 				}
-				                            ]
 			}
-
+		},
+		"variable": {
+			"patterns": [
+				{
+					"include": "#variables"
+				}
+			],
+			"repository": {
+				"variables": {
+					"patterns": [
+						{
+							"match": "\\b[a-zA-Z_][a-zA-Z0-9_]*?(?=[+-=<>\\s)])(?![.\\(])\\b",
+							"name": "variable.parameter"
+						}
+					]
+				}
+			}
+		},
+		"comments": {
+			"patterns": [
+				{
+					"include": "#doubleslashcomment"
+				}
+			],
+			"repository": {
+				"doubleslashcomment": {
+					"patterns": [
+						{
+							"match": "//.*$",
+							"name": "comment.line.double-slash"
+						}
+					]
+				}
+			}
+		},
+		"operator": {
+			"patterns": [
+				{
+					"comment": "logical operator",
+					"name": "storage.type.class.blawn",
+					"match": "\\b(and|or|==)\\b"
+				},
+				{
+					"comment": "compare operator",
+					"name": "storage.type.class.blawn",
+					"match": "(==|\\!=|>=|<=|>|<)"
+				},
+				{
+					"comment": "assigment operator",
+					"name": "storage.type.class.blawn",
+					"match": "(=|<-)"
+				}
+			]
+		},
+		"parameters": {
+			"patterns": [
+				{
+					"include": "#strings"
+				},
+				{
+					"include": "#numeric"
+				}
+			],
+			"repository": {
+				"strings": {
+					"name": "string.quoted.double.blawn",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{
+							"name": "constant.character.escape.blawn",
+							"match": "\\\\."
+						}
+					]
+				},
+				"numeric": {
+					"patterns": [
+						{
+							"name": "constant.numeric",
+							"match": "-?[0-9]+"
+						}
+					]
+				}
+			}
+		},
+		"orders": {
+			"patterns": [
+				{
+					"include": "#functions"
+				},
+				{
+					"include": "#class"
+				}
+			],
+			"repository": {
+				"functions": {
+					"patterns": [
+						{
+							"match": "[a-zA-Z_][a-zA-Z0-9_]*?(?=[\\(])",
+							"name": "entity.name.function"
+						}
+					]
+				},
+				"class": {
+					"patterns": [
+						{
+							"match": "[a-zA-Z_][a-zA-Z0-9_]*?(?=[\\.])",
+							"name": "entity.name.class"
+						}
+					]
+				}
+			}
 		}
-		
 	},
 	"scopeName": "source.bwaln"
 }
